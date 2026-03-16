@@ -12,6 +12,14 @@ const QAPage = ({ user }) => {
   const [answerInputs, setAnswerInputs] = useState({});
   const [answerImageInputs, setAnswerImageInputs] = useState({});
 
+  const sortQuestionsNewestFirst = (items = []) =>
+    [...items].sort((a, b) => {
+      const aTime = new Date(a?.createdAt || 0).getTime();
+      const bTime = new Date(b?.createdAt || 0).getTime();
+      if (bTime !== aTime) return bTime - aTime;
+      return String(b?._id || '').localeCompare(String(a?._id || ''));
+    });
+
   const getUserId = () => user?._id || user?.id || '';
 
   const canDeleteQuestion = (question) => {
@@ -78,7 +86,7 @@ const QAPage = ({ user }) => {
     try {
       const response = await fetch(apiUrl('/api/qa'));
       const data = await response.json();
-      setQuestions(data);
+      setQuestions(sortQuestionsNewestFirst(data));
     } catch (err) {
       console.error('Error fetching questions:', err);
     }
@@ -102,7 +110,7 @@ const QAPage = ({ user }) => {
         body: JSON.stringify({ title, content, image: questionImage })
       });
       const newQuestion = await response.json();
-      setQuestions([newQuestion, ...questions]);
+      setQuestions((prev) => sortQuestionsNewestFirst([newQuestion, ...prev]));
       setTitle('');
       setContent('');
       setQuestionImage('');
@@ -130,7 +138,7 @@ const QAPage = ({ user }) => {
         body: JSON.stringify({ content: answer, image: answerImageInputs[questionId] || '' })
       });
       const updated = await response.json();
-      setQuestions(questions.map(q => q._id === questionId ? updated : q));
+      setQuestions((prev) => sortQuestionsNewestFirst(prev.map((q) => (q._id === questionId ? updated : q))));
       setAnswerInputs((prev) => ({ ...prev, [questionId]: '' }));
       setAnswerImageInputs((prev) => ({ ...prev, [questionId]: '' }));
     } catch (err) {

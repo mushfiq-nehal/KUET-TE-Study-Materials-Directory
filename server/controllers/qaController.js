@@ -17,7 +17,7 @@ exports.getQuestions = async (req, res) => {
     const questions = await Question.find(query)
       .populate('askedBy', 'name roll')
       .populate('answers.answeredBy', 'name roll')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1, _id: -1 });
     res.json(questions);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
