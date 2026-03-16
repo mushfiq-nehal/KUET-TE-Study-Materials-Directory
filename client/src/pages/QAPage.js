@@ -79,18 +79,18 @@ const QAPage = ({ user }) => {
   };
 
   useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await fetch(apiUrl('/api/qa'));
+        const data = await response.json();
+        setQuestions(sortQuestionsNewestFirst(data));
+      } catch (err) {
+        console.error('Error fetching questions:', err);
+      }
+    };
+
     fetchQuestions();
   }, []);
-
-  const fetchQuestions = async () => {
-    try {
-      const response = await fetch(apiUrl('/api/qa'));
-      const data = await response.json();
-      setQuestions(sortQuestionsNewestFirst(data));
-    } catch (err) {
-      console.error('Error fetching questions:', err);
-    }
-  };
 
   const handleAskQuestion = async (e) => {
     e.preventDefault();
