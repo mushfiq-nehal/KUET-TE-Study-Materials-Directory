@@ -19,6 +19,30 @@ const allowedOrigins = (process.env.CORS_ORIGINS || '')
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+const isOriginAllowed = (origin) => {
+  return allowedOrigins.some((allowedOrigin) => {
+    if (allowedOrigin === '*') {
+      return true;
+    }
+
+    if (allowedOrigin === origin) {
+      return true;
+    }
+
+    if (allowedOrigin.startsWith('*.')) {
+      try {
+        const requestHost = new URL(origin).hostname;
+        const suffix = allowedOrigin.slice(2);
+        return requestHost === suffix || requestHost.endsWith(`.${suffix}`);
+      } catch (err) {
+        return false;
+      }
+    }
+
+    return false;
+  });
+};
+
 const corsOptions = {
   origin(origin, callback) {
     if (!origin) {
@@ -26,7 +50,7 @@ const corsOptions = {
       return;
     }
 
-    if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+    if (allowedOrigins.length === 0 || isOriginAllowed(origin)) {
       callback(null, true);
       return;
     }
