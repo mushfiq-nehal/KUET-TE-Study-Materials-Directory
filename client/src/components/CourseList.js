@@ -99,10 +99,15 @@ const CourseList = ({ courses }) => {
                         <ul className="course-material-list">
                           {groupedMaterials[instructor].map((material) => (
                             <li key={material._id}>
-                              <a href={material.googleDriveLink} target="_blank" rel="noreferrer">
-                                {material.title}
+                              <a
+                                href={material.googleDriveLink}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="course-material-link"
+                              >
+                                <span className="course-material-title">{material.title}</span>
+                                <span className="course-material-type">{material.type}</span>
                               </a>
-                              <span>{material.type}</span>
                             </li>
                           ))}
                         </ul>

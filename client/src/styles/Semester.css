@@ -11,6 +11,27 @@
   color: var(--ink-900);
 }
 
+.semester-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  padding: 8px 14px;
+  border: 1px solid rgba(18, 37, 58, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--ink-900);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.semester-back-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(210, 168, 111, 0.95);
+  background: rgba(255, 255, 255, 0.92);
+}
+
 .semester-header h1 {
   font-size: clamp(1.8rem, 4.5vw, 2.8rem);
   margin-bottom: 4px;
@@ -188,33 +209,47 @@
 }
 
 .course-material-list li {
+  list-style: none;
+}
+
+.course-material-link {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid var(--border-soft);
-}
-
-.course-material-list a {
   color: var(--ink-800);
   text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-material-link:hover {
+  border-color: rgba(210, 168, 111, 0.9);
+  box-shadow: 0 8px 18px rgba(18, 37, 58, 0.1);
+  transform: translateY(-1px);
+}
+
+.course-material-title {
   font-weight: 600;
 }
 
-.course-material-list a:hover {
-  text-decoration: underline;
-}
-
-.course-material-list span {
+.course-material-type {
   font-size: 0.78rem;
   color: var(--thread-copper);
   font-weight: 700;
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {
+  .semester-back-btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
   .semester-header h1 {
     font-size: 28px;
   }

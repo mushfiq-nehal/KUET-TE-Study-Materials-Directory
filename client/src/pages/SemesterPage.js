@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../styles/Semester.css';
 import CourseList from '../components/CourseList';
 import { apiUrl } from '../services/api';
 
 const SemesterPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [courses, setCourses] = useState([]);
   const [activeSection, setActiveSection] = useState('THEORY');
   const [semesterLabel, setSemesterLabel] = useState('');
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate('/');
+  };
 
   useEffect(() => {
     // Fetch courses for this semester
@@ -31,6 +41,9 @@ const SemesterPage = () => {
   return (
     <div className="semester-container">
       <header className="semester-header">
+        <button className="semester-back-btn" onClick={handleBack} type="button">
+          Back
+        </button>
         <h1>Semester {semesterLabel || id}</h1>
         <p>Select a section to view courses</p>
       </header>
