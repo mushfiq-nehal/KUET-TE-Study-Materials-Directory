@@ -53,7 +53,7 @@ function App() {
             <Route path="/semester/:id" element={<SemesterPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/notifications" element={<NotificationsPage user={user} />} />
-            <Route path="/qa" element={user ? <QAPage /> : <Navigate to="/login" />} />
+            <Route path="/qa" element={<QAPage user={user} />} />
             <Route path="/admin" element={user?.isAdmin ? <AdminDashboard /> : <Navigate to="/" />} />
           </Routes>
         </div>

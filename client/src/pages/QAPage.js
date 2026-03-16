@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/QA.css';
 import { apiUrl } from '../services/api';
 
-const QAPage = () => {
+const QAPage = ({ user }) => {
   const [questions, setQuestions] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState('');
@@ -67,6 +68,12 @@ const QAPage = () => {
 
   const handleAskQuestion = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      alert('Please login to ask a question.');
+      return;
+    }
+
     try {
       const response = await fetch(apiUrl('/api/qa'), {
         method: 'POST',
@@ -90,6 +97,11 @@ const QAPage = () => {
   const handleAnswer = async (questionId, answer) => {
     if (!answer?.trim()) return;
 
+    if (!user) {
+      alert('Please login to answer questions.');
+      return;
+    }
+
     try {
       const response = await fetch(apiUrl(`/api/qa/${questionId}/answer`), {
         method: 'POST',
@@ -112,9 +124,16 @@ const QAPage = () => {
     <div className="qa-container">
       <header className="qa-header">
         <h1>❓ Q&A Forum</h1>
-        <button className="ask-btn" onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Cancel' : 'Ask a Question'}
-        </button>
+
+        {user ? (
+          <button className="ask-btn" onClick={() => setShowForm(!showForm)}>
+            {showForm ? 'Cancel' : 'Ask a Question'}
+          </button>
+        ) : (
+          <Link className="ask-btn" to="/login">
+            Login to Ask/Answer
+          </Link>
+        )}
       </header>
 
       {showForm && (
@@ -161,37 +180,45 @@ const QAPage = () => {
                 </div>
               ))}
 
-              <form
-                className="answer-form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleAnswer(question._id, answerInputs[question._id] || '');
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="Write your answer..."
-                  value={answerInputs[question._id] || ''}
-                  onChange={(e) =>
-                    setAnswerInputs((prev) => ({
-                      ...prev,
-                      [question._id]: e.target.value,
-                    }))
-                  }
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleAnswerImageChange(question._id, e.target.files?.[0])}
-                />
-                <button type="submit">Answer</button>
-              </form>
-              {answerImageInputs[question._id] && (
-                <img
-                  src={answerImageInputs[question._id]}
-                  alt="Answer upload preview"
-                  className="qa-image-preview"
-                />
+              {user ? (
+                <>
+                  <form
+                    className="answer-form"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleAnswer(question._id, answerInputs[question._id] || '');
+                    }}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Write your answer..."
+                      value={answerInputs[question._id] || ''}
+                      onChange={(e) =>
+                        setAnswerInputs((prev) => ({
+                          ...prev,
+                          [question._id]: e.target.value,
+                        }))
+                      }
+                    />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleAnswerImageChange(question._id, e.target.files?.[0])}
+                    />
+                    <button type="submit">Answer</button>
+                  </form>
+                  {answerImageInputs[question._id] && (
+                    <img
+                      src={answerImageInputs[question._id]}
+                      alt="Answer upload preview"
+                      className="qa-image-preview"
+                    />
+                  )}
+                </>
+              ) : (
+                <p>
+                  <Link to="/login">Login</Link> to answer this question.
+                </p>
               )}
             </div>
           </div>
