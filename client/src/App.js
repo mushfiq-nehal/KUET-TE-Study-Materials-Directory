@@ -44,16 +44,22 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navigation user={user} setUser={setUser} />
-      <Routes>
-        <Route path="/login" element={!user ? <LoginPage setUser={setUser} /> : <Navigate to="/" />} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="/semester/:id" element={<SemesterPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/notifications" element={<NotificationsPage user={user} />} />
-        <Route path="/qa" element={user ? <QAPage /> : <Navigate to="/login" />} />
-        <Route path="/admin" element={user?.isAdmin ? <AdminDashboard /> : <Navigate to="/" />} />
-      </Routes>
+      <div className="app-shell">
+        <div className="app-content">
+          <Navigation user={user} setUser={setUser} />
+          <Routes>
+            <Route path="/login" element={!user ? <LoginPage setUser={setUser} /> : <Navigate to="/" />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/semester/:id" element={<SemesterPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/notifications" element={<NotificationsPage user={user} />} />
+            <Route path="/qa" element={user ? <QAPage /> : <Navigate to="/login" />} />
+            <Route path="/admin" element={user?.isAdmin ? <AdminDashboard /> : <Navigate to="/" />} />
+          </Routes>
+        </div>
+
+        <footer className="site-footer">Developed by Md. Maktum Sani - 2421048</footer>
+      </div>
     </BrowserRouter>
   );
 }

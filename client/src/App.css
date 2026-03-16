@@ -7,3 +7,25 @@
 @import './styles/Notifications.css';
 @import './styles/QA.css';
 @import './styles/AdminDashboard.css';
+
+.app-shell {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.app-content {
+	flex: 1;
+}
+
+.site-footer {
+	margin-top: 20px;
+	padding: 14px 18px;
+	text-align: center;
+	color: var(--text-700);
+	font-size: 0.9rem;
+	font-weight: 600;
+	border-top: 1px solid var(--border-soft);
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(2px);
+}

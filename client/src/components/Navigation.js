@@ -104,6 +104,16 @@ const Navigation = ({ user }) => {
           <button onClick={() => navigateAndClose('/qa')} className="nav-btn icon-btn" title="Q&A" aria-label="Q&A">
             <i className="bi bi-chat-left-dots-fill" aria-hidden="true"></i>
           </button>
+          <a
+            href="https://t.me/te24bot"
+            target="_blank"
+            rel="noreferrer"
+            className="nav-btn icon-btn telegram-btn"
+            title="Telegram Bot"
+            aria-label="Telegram Bot"
+          >
+            <i className="bi bi-telegram" aria-hidden="true"></i>
+          </a>
           {user?.isAdmin && (
             <button onClick={() => navigateAndClose('/admin')} className="nav-btn admin icon-btn" title="Admin" aria-label="Admin">
               <i className="bi bi-shield-lock-fill" aria-hidden="true"></i>

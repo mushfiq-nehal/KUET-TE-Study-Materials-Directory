@@ -122,6 +122,16 @@
   background: rgba(210, 168, 111, 0.2);
 }
 
+.telegram-btn {
+  border-color: rgba(49, 169, 225, 0.78);
+  background: rgba(49, 169, 225, 0.2);
+}
+
+.telegram-btn:hover {
+  background: rgba(49, 169, 225, 0.32);
+  border-color: rgba(49, 169, 225, 0.92);
+}
+
 .nav-right {
   display: flex;
   align-items: center;
