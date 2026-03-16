@@ -5,6 +5,11 @@ const isValidImageDataUrl = (value) => {
   return /^data:image\/(png|jpe?g|webp|gif);base64,/.test(value);
 };
 
+const isOwnerOrAdmin = (reqUser, ownerId) => {
+  if (!reqUser) return false;
+  return reqUser.isAdmin || (ownerId && ownerId.toString() === reqUser.userId);
+};
+
 exports.getQuestions = async (req, res) => {
   try {
     const { course } = req.query;
@@ -63,6 +68,61 @@ exports.answerQuestion = async (req, res) => {
     });
 
     await question.save();
+    const populated = await Question.findById(question._id)
+      .populate('askedBy', 'name roll')
+      .populate('answers.answeredBy', 'name roll');
+
+    res.json(populated);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+exports.deleteQuestion = async (req, res) => {
+  try {
+    const question = await Question.findById(req.params.id);
+
+    if (!question) {
+      return res.status(404).json({ message: 'Question not found' });
+    }
+
+    if (!isOwnerOrAdmin(req.user, question.askedBy)) {
+      return res.status(403).json({ message: 'You are not allowed to delete this question' });
+    }
+
+    await Question.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Question deleted' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+exports.deleteAnswer = async (req, res) => {
+  try {
+    const { questionId, answerId } = req.params;
+    const question = await Question.findById(questionId);
+
+    if (!question) {
+      return res.status(404).json({ message: 'Question not found' });
+    }
+
+    const answer = question.answers.id(answerId);
+    if (!answer) {
+      return res.status(404).json({ message: 'Answer not found' });
+    }
+
+    const canDelete =
+      req.user.isAdmin ||
+      (answer.answeredBy && answer.answeredBy.toString() === req.user.userId) ||
+      (question.askedBy && question.askedBy.toString() === req.user.userId);
+
+    if (!canDelete) {
+      return res.status(403).json({ message: 'You are not allowed to delete this answer' });
+    }
+
+    question.answers.pull(answerId);
+    await question.save();
+
     const populated = await Question.findById(question._id)
       .populate('askedBy', 'name roll')
       .populate('answers.answeredBy', 'name roll');

@@ -12,6 +12,24 @@ const QAPage = ({ user }) => {
   const [answerInputs, setAnswerInputs] = useState({});
   const [answerImageInputs, setAnswerImageInputs] = useState({});
 
+  const getUserId = () => user?._id || user?.id || '';
+
+  const canDeleteQuestion = (question) => {
+    const userId = getUserId();
+    return Boolean(user && (user.isAdmin || question?.askedBy?._id === userId));
+  };
+
+  const canDeleteAnswer = (question, answer) => {
+    const userId = getUserId();
+    return Boolean(
+      user && (
+        user.isAdmin ||
+        answer?.answeredBy?._id === userId ||
+        question?.askedBy?._id === userId
+      )
+    );
+  };
+
   const readFileAsDataUrl = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -120,6 +138,52 @@ const QAPage = ({ user }) => {
     }
   };
 
+  const handleDeleteQuestion = async (questionId) => {
+    if (!user) return;
+    if (!window.confirm('Delete this question and all its answers?')) return;
+
+    try {
+      const response = await fetch(apiUrl(`/api/qa/${questionId}`), {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Delete failed');
+      }
+
+      setQuestions((prev) => prev.filter((q) => q._id !== questionId));
+    } catch (err) {
+      console.error('Error deleting question:', err);
+    }
+  };
+
+  const handleDeleteAnswer = async (questionId, answerId) => {
+    if (!user) return;
+    if (!window.confirm('Delete this answer?')) return;
+
+    try {
+      const response = await fetch(apiUrl(`/api/qa/${questionId}/answer/${answerId}`), {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Delete failed');
+      }
+
+      setQuestions((prev) => prev.map((q) => (q._id === questionId ? data : q)));
+    } catch (err) {
+      console.error('Error deleting answer:', err);
+    }
+  };
+
   return (
     <div className="qa-container">
       <header className="qa-header">
@@ -167,7 +231,17 @@ const QAPage = ({ user }) => {
             {question.image && (
               <img src={question.image} alt="Question attachment" className="qa-image" />
             )}
-            <small>Asked by {question.askedBy?.name}</small>
+            <div className="question-meta">
+              <small>Asked by {question.askedBy?.name}</small>
+              {canDeleteQuestion(question) && (
+                <button
+                  className="qa-delete-btn"
+                  onClick={() => handleDeleteQuestion(question._id)}
+                >
+                  Delete Question
+                </button>
+              )}
+            </div>
 
             <div className="answers-section">
               {question.answers && question.answers.map((answer) => (
@@ -176,7 +250,17 @@ const QAPage = ({ user }) => {
                   {answer.image && (
                     <img src={answer.image} alt="Answer attachment" className="qa-image" />
                   )}
-                  <small>By {answer.answeredBy?.name}</small>
+                  <div className="answer-meta">
+                    <small>By {answer.answeredBy?.name}</small>
+                    {canDeleteAnswer(question, answer) && (
+                      <button
+                        className="qa-delete-btn"
+                        onClick={() => handleDeleteAnswer(question._id, answer._id)}
+                      >
+                        Delete Answer
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
 
