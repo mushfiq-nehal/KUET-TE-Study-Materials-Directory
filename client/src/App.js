@@ -58,6 +58,7 @@ function App() {
           </Routes>
         </div>
 
+        <footer className="site-footer">For any problem contact CR - Md. Maktum Sani (2421048)</footer>
       </div>
     </BrowserRouter>
   );
