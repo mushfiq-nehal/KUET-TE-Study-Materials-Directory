@@ -123,6 +123,7 @@
   .search-header input,
   .search-header select,
   .search-header button {
+    flex: none;
     width: 100%;
     min-height: 40px;
     padding: 8px 12px;
@@ -171,6 +172,7 @@
   .search-header input,
   .search-header select,
   .search-header button {
+    flex: none;
     min-height: 38px;
     padding: 7px 10px;
     font-size: 15px;
