@@ -58,7 +58,6 @@ function App() {
           </Routes>
         </div>
 
-        <footer className="site-footer">Developed by Md. Maktum Sani - 2421048</footer>
       </div>
     </BrowserRouter>
   );

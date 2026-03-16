@@ -18,11 +18,4 @@
 	flex: 1;
 }
 
-.site-footer {
-	margin-top: 20px;
-	padding: 8px 18px 14px;
-	text-align: center;
-	color: var(--text-700);
-	font-size: 0.9rem;
-	font-weight: 600;
-}
+
