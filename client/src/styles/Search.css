@@ -124,12 +124,13 @@
   .search-header select,
   .search-header button {
     width: 100%;
-    min-height: 46px;
+    min-height: 40px;
+    padding: 8px 12px;
     font-size: 16px;
   }
 
   .search-results {
-    gap: 10px;
+    gap: 8px;
   }
 
   .search-results h2 {
@@ -138,9 +139,9 @@
   }
 
   .result-item {
-    padding: 14px;
+    padding: 10px 12px;
     border-left-width: 3px;
-    border-radius: 12px;
+    border-radius: 10px;
   }
 
   .result-item h3 {
@@ -170,11 +171,12 @@
   .search-header input,
   .search-header select,
   .search-header button {
-    min-height: 44px;
-    padding: 10px 12px;
+    min-height: 38px;
+    padding: 7px 10px;
+    font-size: 15px;
   }
 
   .result-item {
-    padding: 12px;
+    padding: 9px 10px;
   }
 }
