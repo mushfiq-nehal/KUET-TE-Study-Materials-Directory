@@ -1,0 +1,9 @@
+@import './styles/Global.css';
+@import './styles/Auth.css';
+@import './styles/Components.css';
+@import './styles/Home.css';
+@import './styles/Semester.css';
+@import './styles/Search.css';
+@import './styles/Notifications.css';
+@import './styles/QA.css';
+@import './styles/AdminDashboard.css';

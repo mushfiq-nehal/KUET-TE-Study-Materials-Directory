@@ -1,0 +1,218 @@
+/* Admin Dashboard */
+.admin-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 20px 34px;
+}
+
+.admin-dashboard h1 {
+  color: var(--ink-900);
+  margin-bottom: 22px;
+  font-size: clamp(1.7rem, 4vw, 2.45rem);
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-soft);
+  flex-wrap: wrap;
+}
+
+.admin-tabs .tab {
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(18, 37, 58, 0.18);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-700);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.admin-tabs .tab:hover {
+  transform: translateY(-1px);
+  border-color: rgba(210, 168, 111, 0.9);
+}
+
+.admin-tabs .tab.active {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(120deg, var(--ink-900), var(--ink-700));
+}
+
+.admin-content {
+  background: linear-gradient(180deg, var(--card), #f8f2e8);
+  padding: 30px;
+  border-radius: 18px;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 10px 24px rgba(18, 37, 58, 0.1);
+}
+
+.admin-content h2 {
+  color: var(--ink-900);
+  margin-bottom: 20px;
+}
+
+.admin-subtitle {
+  margin-top: 24px;
+}
+
+.admin-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+}
+
+.admin-content input,
+.admin-content select,
+.admin-content textarea {
+  padding: 12px;
+  border: 1px solid rgba(18, 37, 58, 0.24);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.76);
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-content input:focus,
+.admin-content select:focus,
+.admin-content textarea:focus {
+  outline: none;
+  border-color: rgba(210, 168, 111, 0.95);
+  box-shadow: 0 0 0 4px rgba(210, 168, 111, 0.16);
+}
+
+.admin-content textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.admin-message {
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.admin-message.success {
+  color: #175c3d;
+  background: rgba(47, 158, 100, 0.16);
+  border: 1px solid rgba(47, 158, 100, 0.35);
+}
+
+.admin-message.error {
+  color: #8f2626;
+  background: rgba(214, 69, 69, 0.15);
+  border: 1px solid rgba(214, 69, 69, 0.35);
+}
+
+.admin-list {
+  margin-top: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.admin-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.admin-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.admin-item-main span,
+.admin-item-main small {
+  color: var(--text-700);
+}
+
+.admin-item-main small {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 620px;
+}
+
+.admin-item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-item-actions button {
+  padding: 8px 12px;
+}
+
+.admin-item-actions .danger-btn {
+  background: linear-gradient(120deg, #b33030, #d64545);
+}
+
+.admin-content button {
+  padding: 12px;
+  background: linear-gradient(120deg, var(--ink-900), var(--ink-700));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-content button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 16px rgba(18, 37, 58, 0.22);
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard h1 {
+    font-size: 28px;
+  }
+
+  .admin-tabs {
+    flex-direction: column;
+    border-bottom: none;
+  }
+
+  .admin-tabs .tab {
+    width: 100%;
+    text-align: center;
+  }
+
+  .admin-content {
+    padding: 18px 14px;
+  }
+
+  .admin-content form {
+    max-width: 100%;
+  }
+
+  .admin-list-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-item-main small {
+    max-width: 100%;
+  }
+
+  .admin-item-actions {
+    width: 100%;
+  }
+
+  .admin-item-actions button {
+    flex: 1;
+  }
+}

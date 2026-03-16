@@ -1,0 +1,154 @@
+/* Notifications Page */
+.notifications-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 28px 20px 34px;
+}
+
+.notifications-container h1 {
+  color: var(--ink-900);
+  margin-bottom: 22px;
+  font-size: clamp(1.7rem, 4vw, 2.45rem);
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.notification-item {
+  background: linear-gradient(180deg, var(--card), #f8f2e8);
+  padding: 20px;
+  border-radius: 16px;
+  border-left: 5px solid var(--info);
+  box-shadow: 0 8px 18px rgba(18, 37, 58, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notification-item.UPDATE {
+  border-left-color: #28a745;
+}
+
+.notification-item.URGENT {
+  border-left-color: var(--danger);
+  background: linear-gradient(180deg, #fff7f4, #fff1ed);
+}
+
+.notification-item.WARNING {
+  border-left-color: var(--warning);
+  background: linear-gradient(180deg, #fffbf0, #fdf7e7);
+}
+
+.notification-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-soft);
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.notification-header h3 {
+  color: var(--ink-900);
+  margin: 0;
+}
+
+.notification-type {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(18, 37, 58, 0.08);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-700);
+}
+
+.notification-item.URGENT .notification-type {
+  background: #ffd700;
+  color: #000;
+}
+
+.notification-item.UPDATE .notification-type {
+  background: #d4edda;
+  color: #155724;
+}
+
+.notification-item p {
+  color: var(--text-700);
+  margin: 12px 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.notification-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.notification-footer small {
+  color: var(--text-700);
+  font-size: 12px;
+}
+
+.notification-footer button {
+  background: linear-gradient(120deg, var(--ink-900), var(--ink-700));
+  color: white;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notification-footer button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 14px rgba(18, 37, 58, 0.2);
+}
+
+.notification-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.notification-actions .danger-btn {
+  background: linear-gradient(120deg, #b33030, #d64545);
+}
+
+@media (max-width: 768px) {
+  .notifications-container h1 {
+    font-size: 28px;
+  }
+
+  .notification-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .notification-type {
+    margin-top: 10px;
+  }
+
+  .notification-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .notification-footer button {
+    width: 100%;
+  }
+
+  .notification-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+}

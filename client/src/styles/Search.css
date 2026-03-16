@@ -1,0 +1,124 @@
+/* Search Page */
+.search-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 28px 20px 34px;
+}
+
+.search-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.search-header h1 {
+  color: var(--ink-900);
+  margin-bottom: 16px;
+  font-size: clamp(1.7rem, 4vw, 2.45rem);
+}
+
+.search-header form {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.search-header input {
+  flex: 1 1 260px;
+  padding: 12px 16px;
+  border: 1px solid rgba(18, 37, 58, 0.25);
+  background: rgba(255, 255, 255, 0.76);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-header select {
+  flex: 0 1 180px;
+  padding: 12px 14px;
+  border: 1px solid rgba(18, 37, 58, 0.25);
+  background: rgba(255, 255, 255, 0.76);
+  border-radius: 12px;
+  font-size: 0.92rem;
+}
+
+.search-header select:focus {
+  outline: none;
+  border-color: rgba(210, 168, 111, 0.95);
+  box-shadow: 0 0 0 4px rgba(210, 168, 111, 0.16);
+}
+
+.search-header input:focus {
+  outline: none;
+  border-color: rgba(210, 168, 111, 0.95);
+  box-shadow: 0 0 0 4px rgba(210, 168, 111, 0.16);
+}
+
+.search-header button {
+  padding: 12px 24px;
+  background: linear-gradient(120deg, var(--ink-900), var(--ink-700));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-header button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(18, 37, 58, 0.26);
+}
+
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.search-results h2 {
+  color: var(--ink-900);
+  font-size: 1.08rem;
+  margin-top: 6px;
+}
+
+.result-item {
+  background: linear-gradient(180deg, var(--card), #f8f1e7);
+  padding: 20px;
+  border-radius: 16px;
+  border-left: 4px solid var(--thread-copper);
+  box-shadow: 0 8px 18px rgba(18, 37, 58, 0.08);
+}
+
+.result-item h3 {
+  color: var(--ink-900);
+  margin-bottom: 8px;
+}
+
+.result-item p {
+  color: var(--text-700);
+  font-size: 0.9rem;
+}
+
+.result-item:hover {
+  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 768px) {
+  .search-header form {
+    flex-direction: column;
+  }
+
+  .search-header input {
+    width: 100%;
+  }
+
+  .search-header button {
+    width: 100%;
+  }
+
+  .search-header h1 {
+    font-size: 28px;
+  }
+}
