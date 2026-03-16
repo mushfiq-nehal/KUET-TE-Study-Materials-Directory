@@ -6,22 +6,27 @@
 }
 
 .semester-header {
+  position: relative;
   text-align: center;
   margin-bottom: 26px;
   color: var(--ink-900);
 }
 
 .semester-back-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
-  padding: 8px 14px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   border: 1px solid rgba(18, 37, 58, 0.24);
-  border-radius: 999px;
+  border-radius: 50%;
   background: rgba(255, 255, 255, 0.75);
   color: var(--ink-900);
-  font-weight: 600;
+  font-size: 1.05rem;
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
@@ -246,8 +251,9 @@
 
 @media (max-width: 768px) {
   .semester-back-btn {
-    width: 100%;
-    margin-bottom: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 0.98rem;
   }
 
   .semester-header h1 {

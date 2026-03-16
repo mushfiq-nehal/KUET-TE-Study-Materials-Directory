@@ -41,8 +41,14 @@ const SemesterPage = () => {
   return (
     <div className="semester-container">
       <header className="semester-header">
-        <button className="semester-back-btn" onClick={handleBack} type="button">
-          Back
+        <button
+          className="semester-back-btn"
+          onClick={handleBack}
+          type="button"
+          aria-label="Go back"
+          title="Go back"
+        >
+          <i className="bi bi-arrow-left" aria-hidden="true"></i>
         </button>
         <h1>Semester {semesterLabel || id}</h1>
         <p>Select a section to view courses</p>
