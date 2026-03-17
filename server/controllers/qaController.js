@@ -1,8 +1,20 @@
 const Question = require('../models/Question');
 
+const MAX_IMAGE_SIZE_BYTES = 2 * 1024 * 1024;
+
 const isValidImageDataUrl = (value) => {
   if (!value) return true;
   return /^data:image\/(png|jpe?g|webp|gif);base64,/.test(value);
+};
+
+const getDataUrlByteSize = (value) => {
+  if (!value) return 0;
+  const parts = value.split(',');
+  if (parts.length !== 2) return 0;
+
+  const base64 = parts[1];
+  const padding = (base64.match(/=+$/) || [''])[0].length;
+  return Math.floor((base64.length * 3) / 4) - padding;
 };
 
 const isOwnerOrAdmin = (reqUser, ownerId) => {
@@ -32,6 +44,10 @@ exports.askQuestion = async (req, res) => {
       return res.status(400).json({ message: 'Invalid image format' });
     }
 
+    if (getDataUrlByteSize(image) > MAX_IMAGE_SIZE_BYTES) {
+      return res.status(413).json({ message: 'Question image must be smaller than 2MB' });
+    }
+
     const question = new Question({
       title,
       content,
@@ -53,6 +69,10 @@ exports.answerQuestion = async (req, res) => {
 
     if (!isValidImageDataUrl(image)) {
       return res.status(400).json({ message: 'Invalid image format' });
+    }
+
+    if (getDataUrlByteSize(image) > MAX_IMAGE_SIZE_BYTES) {
+      return res.status(413).json({ message: 'Answer image must be smaller than 2MB' });
     }
 
     const question = await Question.findById(req.params.id);

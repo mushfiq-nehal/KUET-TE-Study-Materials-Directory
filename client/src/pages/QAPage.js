@@ -22,6 +22,16 @@ const QAPage = ({ user }) => {
 
   const getUserId = () => user?._id || user?.id || '';
 
+  const parseResponsePayload = async (response) => {
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      return response.json();
+    }
+
+    const text = await response.text();
+    return { message: text || 'Unexpected server response' };
+  };
+
   const canDeleteQuestion = (question) => {
     const userId = getUserId();
     return Boolean(user && (user.isAdmin || question?.askedBy?._id === userId));
@@ -59,8 +69,14 @@ const QAPage = ({ user }) => {
       return;
     }
 
-    const dataUrl = await readFileAsDataUrl(file);
-    setQuestionImage(dataUrl);
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setQuestionImage(dataUrl);
+    } catch (err) {
+      console.error('Error reading question image:', err);
+      alert('Could not read selected image. Please try a different file.');
+      setQuestionImage('');
+    }
   };
 
   const handleAnswerImageChange = async (questionId, file) => {
@@ -74,8 +90,14 @@ const QAPage = ({ user }) => {
       return;
     }
 
-    const dataUrl = await readFileAsDataUrl(file);
-    setAnswerImageInputs((prev) => ({ ...prev, [questionId]: dataUrl }));
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setAnswerImageInputs((prev) => ({ ...prev, [questionId]: dataUrl }));
+    } catch (err) {
+      console.error('Error reading answer image:', err);
+      alert('Could not read selected image. Please try a different file.');
+      setAnswerImageInputs((prev) => ({ ...prev, [questionId]: '' }));
+    }
   };
 
   useEffect(() => {
@@ -110,7 +132,12 @@ const QAPage = ({ user }) => {
         },
         body: JSON.stringify({ title, content, image: questionImage })
       });
-      const newQuestion = await response.json();
+      const payload = await parseResponsePayload(response);
+      if (!response.ok) {
+        throw new Error(payload.message || 'Failed to post question');
+      }
+
+      const newQuestion = payload;
       setQuestions((prev) => sortQuestionsNewestFirst([newQuestion, ...prev]));
       setTitle('');
       setContent('');
@@ -118,6 +145,7 @@ const QAPage = ({ user }) => {
       setShowForm(false);
     } catch (err) {
       console.error('Error asking question:', err);
+      alert(err.message || 'Failed to post question. Please try again.');
     }
   };
 
@@ -138,12 +166,18 @@ const QAPage = ({ user }) => {
         },
         body: JSON.stringify({ content: answer, image: answerImageInputs[questionId] || '' })
       });
-      const updated = await response.json();
+      const payload = await parseResponsePayload(response);
+      if (!response.ok) {
+        throw new Error(payload.message || 'Failed to post answer');
+      }
+
+      const updated = payload;
       setQuestions((prev) => sortQuestionsNewestFirst(prev.map((q) => (q._id === questionId ? updated : q))));
       setAnswerInputs((prev) => ({ ...prev, [questionId]: '' }));
       setAnswerImageInputs((prev) => ({ ...prev, [questionId]: '' }));
     } catch (err) {
       console.error('Error answering question:', err);
+      alert(err.message || 'Failed to post answer. Please try again.');
     }
   };
 
